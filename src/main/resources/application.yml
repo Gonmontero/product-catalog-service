@@ -1,0 +1,30 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.context.ContextCredentialsAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.context.ContextResourceLoaderAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.mail.MailSenderAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.cache.ElastiCacheAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.messaging.MessagingAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.jdbc.AmazonRdsDatabaseAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.metrics.CloudWatchExportAutoConfiguration
+cloud:
+  aws:
+    region:
+      static: us-east-1
+      auto: false
+    stack:
+      auto: false
+    credentials:
+      access-key: InsertAccessKey
+      secret-key: InsertSecretKey
+    end-point:
+      sns: arn:aws:sns:us-east-2:572651622103:ChainSupplyNotification
+      sqs: https://sqs.us-east-2.amazonaws.com/572651622103/CatalogChangeEventNotification
+app:
+  notification:
+    supplychain:
+      url: https://ev5uwiczj6.execute-api.eu-central-1.amazonaws.com/test/supply-chain
