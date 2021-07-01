@@ -55,7 +55,12 @@ public class ProductCatalogServiceImpl implements ProductCatalogService {
                 .build();
 
         productCatalogRepository.save(product);
-        notificationService.notifyDownstreamServices(EventCatalog.NEW_PRODUCT, product);
+
+        try {
+            notificationService.notifyDownstreamServices(EventCatalog.NEW_PRODUCT, product);
+        } catch(ApplicationException e) {
+            System.out.println(e.getMessage());
+        }
 
         return product;
     }
@@ -69,7 +74,12 @@ public class ProductCatalogServiceImpl implements ProductCatalogService {
         }
 
         productCatalogRepository.deleteProductById(product.getId());
-        notificationService.notifyDownstreamServices(EventCatalog.REMOVED_PRODUCT, product);
+
+        try {
+            notificationService.notifyDownstreamServices(EventCatalog.REMOVED_PRODUCT, product);
+        } catch(ApplicationException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
@@ -88,7 +98,12 @@ public class ProductCatalogServiceImpl implements ProductCatalogService {
 
 
         productCatalogRepository.updateProductById(product.getId(), product);
-        notificationService.notifyDownstreamServices(EventCatalog.UPDATED_PRODUCT, product);
+
+        try {
+            notificationService.notifyDownstreamServices(EventCatalog.UPDATED_PRODUCT, product);
+        } catch(ApplicationException e) {
+            System.out.println(e.getMessage());
+        }
 
         return product;
     }

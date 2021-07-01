@@ -3,8 +3,13 @@ package com.catalog.service.impl;
 import com.catalog.Publisher.SNSPublisher;
 import com.catalog.entity.Product;
 import com.catalog.enums.EventCatalog;
+import com.catalog.exception.ApplicationException;
+import com.catalog.exception.errors.ErrorCode;
 import com.catalog.service.NotificationService;
+import com.catalog.service.ProductCatalogService;
 import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,6 +18,8 @@ import java.util.HashMap;
 
 @Service
 public class SNSNotificationService implements NotificationService {
+
+    Logger logger = LoggerFactory.getLogger(ProductCatalogService.class);
 
     @Autowired
     private SNSPublisher publisher;
@@ -29,7 +36,11 @@ public class SNSNotificationService implements NotificationService {
 
         String jsonMessage = gson.toJson(message);
 
-
-        this.publisher.publishMessageToTopic(ARN, jsonMessage);
+        try {
+            this.publisher.publishMessageToTopic(ARN, jsonMessage);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new ApplicationException(ErrorCode.AWS_SNS_ERROR);
+        }
     }
 }
